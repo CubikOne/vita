@@ -1,0 +1,5 @@
+---
+- name: Copy files to servers
+  hosts: server
+  roles:
+    - copy

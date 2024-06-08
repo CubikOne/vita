@@ -1,0 +1,35 @@
+version: '3.8'
+
+services: 
+  nginx:
+    image: nginx:1.25 # Версия образа
+    ports:
+      - "1243:80" # Порты 
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf # Наш конфиг
+    depends_on: 
+      - php # Ждем запуска php
+    networks:
+      - vita # Наша сеть 
+
+  php:
+    image: php:7.4-fpm # Версия образа
+    volumes:
+      - .:/var/local/sandboxes/dev/www # Монтируем католог 
+    environment:
+      PHP_FPM_LISTEN: "0.0.0.0:9000" # Переменная окружения 
+    networks:
+      - vita # Наша сеть 
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: my_db
+    networks:
+      - vita
+
+networks:
+  vita:
+    driver: bridge

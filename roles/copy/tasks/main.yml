@@ -1,0 +1,7 @@
+---
+- name: Copy a file to the server
+  copy:
+    src: "{{ item }}"
+    dest: /home/
+  loop:
+    - Test/from_server.txt
